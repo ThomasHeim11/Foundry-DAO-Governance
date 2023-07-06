@@ -29,6 +29,7 @@ contract MyGovernorTest is Test {
         vm.startPrank(USER);
         govToken.delegate(USER);
         timelock = new TimeLock(MIN_DELAY, proposers, executors);
+        governor = new MyGovernor(govToken, timelock);
 
     }
 }
