@@ -8,4 +8,21 @@ import {TimeLock} from "../src/TimeLock.sol";
 import {Box} from "../src/Box.sol";
 import {console} from "forge-std/console.sol";
 
-contract MyGovernorTest is Test
+contract MyGovernorTest is Test {
+    MyGovernor governor;
+    Box box;
+    TimeLock timelock;
+    GovToken govToken;
+
+    address public USER = makeAddr("user");
+    uint256 public constant INITIAL_SUPPLY = 100 ether;
+
+    function setUp() public {
+        govToken = new GovToken();
+        govToken.mint(USER, INITIAL_SUPPLY);
+
+        vm.startPrank(USER);
+        govToken.delegate(USER);
+
+    }
+}
