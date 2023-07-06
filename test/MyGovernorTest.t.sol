@@ -17,6 +17,8 @@ contract MyGovernorTest is Test {
     address public USER = makeAddr("user");
     uint256 public constant INITIAL_SUPPLY = 100 ether;
 
+    uint256 public constant MIN_DELAY = 3600;
+
     function setUp() public {
         govToken = new GovToken();
         govToken.mint(USER, INITIAL_SUPPLY);
