@@ -31,5 +31,16 @@ contract MyGovernorTest is Test {
         timelock = new TimeLock(MIN_DELAY, proposers, executors);
         governor = new MyGovernor(govToken, timelock);
 
+        bytes32 proposerRole = timelock.PROPOSER_ROLE();
+        bytes32 executorRole = timelock.EXECUTOR_ROLE();
+        bytes32 adminRole = timelock.TIMELOCK_ADMIN_ROLE();
+
+        timelock.grantRole(proposerRole, address(governor));
+        timelock.grantRole(executorRole, address(0));
+        timelock.grantRole(adminRole, USER);
+        vm.stopPrank();
+
+        box = new Box();
+
     }
 }
