@@ -19,12 +19,16 @@ contract MyGovernorTest is Test {
 
     uint256 public constant MIN_DELAY = 3600;
 
+    address[] proposers;
+    address[] executors;
+
     function setUp() public {
         govToken = new GovToken();
         govToken.mint(USER, INITIAL_SUPPLY);
 
         vm.startPrank(USER);
         govToken.delegate(USER);
+        timelock = new TimeLock(MIN_DELAY, new address[](0), new address[](0));
 
     }
 }
