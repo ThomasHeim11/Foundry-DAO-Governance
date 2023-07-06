@@ -41,6 +41,7 @@ contract MyGovernorTest is Test {
         vm.stopPrank();
 
         box = new Box();
+        box.transferOwnership(address(timelock));
 
     }
 }
