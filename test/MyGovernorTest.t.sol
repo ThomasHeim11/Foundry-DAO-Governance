@@ -93,6 +93,6 @@ contract MyGovernorTest is Test {
         // 4. Execute
         governor.execute(addressesToCall, values, functionCalls, descriptionHash);
 
-        assert(box.retrieve() == valueToStore);
+        assert(box.getNumber() == valueToStore);
     }
 }
