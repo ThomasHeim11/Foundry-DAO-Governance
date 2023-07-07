@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {Test} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {MyGovernor} from "../src/MyGovernor.sol";
 import {GovToken} from "../src/GovToken.sol";
 import {TimeLock} from "../src/TimeLock.sol";
@@ -21,6 +21,10 @@ contract MyGovernorTest is Test {
 
     address[] proposers;
     address[] executors;
+
+    uint256[] values;
+    bytes[] calldatas;
+    address[] targets;
 
     function setUp() public {
         govToken = new GovToken();
@@ -42,7 +46,6 @@ contract MyGovernorTest is Test {
 
         box = new Box();
         box.transferOwnership(address(timelock));
-
     }
 
     function testCantUpdateBoxWithoutGovernance() public {
@@ -54,5 +57,12 @@ contract MyGovernorTest is Test {
         uint256 valueToStore = 888;
         string memory description = "store 1 n Box";
         bytes memory encodedFunctionCall = abi.encodeWithSignature("store(uint256)", valueToStore);
+        values.push(0);
+        calldatas.push(encodedFunctionCall);
+        targets.push(address(box));
+
+        uint256 proposalId = governor.propose(targets, values, calldatas, description);
+
+        console.log("Proposal state", uint256(governor.state(proposalId)));
     }
 }
