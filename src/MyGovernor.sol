@@ -13,6 +13,10 @@ import {TimelockController} from "@openzeppelin/contracts/governance/TimelockCon
 import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 import {IGovernor} from "@openzeppelin/contracts/governance/IGovernor.sol";
 
+/**
+ * @title MyGovernor
+ * @dev This contract extends the OpenZeppelin Governor contract and adds additional functionality for voting and timelock control.
+ */
 contract MyGovernor is
     Governor,
     GovernorSettings,
@@ -21,6 +25,11 @@ contract MyGovernor is
     GovernorVotesQuorumFraction,
     GovernorTimelockControl
 {
+    /**
+     * @dev Initializes the contract with the given token and timelock controller.
+     * @param _token The token used for voting.
+     * @param _timelock The timelock controller used for timelock control.
+     */
     constructor(IVotes _token, TimelockController _timelock)
         Governor("MyGovernor")
         GovernorSettings(1, /* 1 block */ 50400, /* 1 week */ 0)
