@@ -44,4 +44,15 @@ contract MyGovernorTest is Test {
         box.transferOwnership(address(timelock));
 
     }
+
+    function testCantUpdateBoxWithoutGovernance() public {
+        vm.expectRevert();
+        box.store(1);
+    }
+
+    function testGovernanceUpdateBox() public {
+        uint256 valueToStore = 888;
+        string memory description = "store 1 n Box";
+        bytes memory encodedFunctionCall = abi.encodeWithSignature("store(uint256)", valueToStore);
+    }
 }
