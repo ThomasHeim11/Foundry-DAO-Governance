@@ -74,7 +74,11 @@ contract MyGovernorTest is Test {
         console.log("Proposal State", uint256(governor.state(proposalId)));
 
         // 2.Vote
-        
+        string memory reason = "change dao logo to a green leef";
+
+        uint8 voteWay = 1;
+        vm.prank(USER);
+        governor.castVote(proposalId, voteWay, reason);
 
 
     }
