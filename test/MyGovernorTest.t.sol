@@ -26,6 +26,9 @@ contract MyGovernorTest is Test {
     bytes[] calldatas;
     address[] targets;
 
+    uint256 public constant MIN_DELAY = 3600;
+    uint256 public constant VOTING_DELAY = 1;
+
     function setUp() public {
         govToken = new GovToken();
         govToken.mint(USER, INITIAL_SUPPLY);
@@ -64,5 +67,15 @@ contract MyGovernorTest is Test {
         uint256 proposalId = governor.propose(targets, values, calldatas, description);
 
         console.log("Proposal state", uint256(governor.state(proposalId)));
+
+        vm.warp(block.timestamp + VOTING_DELAY + 1);
+        vm.wrap(block.number + VOTING_DELAY + 1);
+
+        console.log("Proposal State", uint256(governor.state(proposalId)));
+
+        // 2.Vote
+        
+
+
     }
 }
