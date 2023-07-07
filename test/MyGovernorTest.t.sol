@@ -17,8 +17,6 @@ contract MyGovernorTest is Test {
     address public USER = makeAddr("user");
     uint256 public constant INITIAL_SUPPLY = 100 ether;
 
-    uint256 public constant MIN_DELAY = 3600;
-
     address[] proposers;
     address[] executors;
 
@@ -28,6 +26,7 @@ contract MyGovernorTest is Test {
 
     uint256 public constant MIN_DELAY = 3600;
     uint256 public constant VOTING_DELAY = 1;
+    uint256 public constant VOTING_PERIOD = 50400;
 
     function setUp() public {
         govToken = new GovToken();
@@ -63,13 +62,13 @@ contract MyGovernorTest is Test {
         values.push(0);
         calldatas.push(encodedFunctionCall);
         targets.push(address(box));
-
+        // 1. Propose to the DAO
         uint256 proposalId = governor.propose(targets, values, calldatas, description);
 
         console.log("Proposal state", uint256(governor.state(proposalId)));
 
         vm.warp(block.timestamp + VOTING_DELAY + 1);
-        vm.wrap(block.number + VOTING_DELAY + 1);
+        vm.roll(block.number + VOTING_DELAY + 1);
 
         console.log("Proposal State", uint256(governor.state(proposalId)));
 
@@ -78,8 +77,22 @@ contract MyGovernorTest is Test {
 
         uint8 voteWay = 1;
         vm.prank(USER);
-        governor.castVote(proposalId, voteWay, reason);
+        governor.castVoteWithReason(proposalId, voteWay, reason);
+        
+        vm.warp(block.timestamp + VOTING_PERIOD + 1);
+        vm.wrap(block.number + VOTING_PERIOD + 1);
 
+        // 3. Queue
+        bytes32 descriptionHash = keccak256(abi.encodePacked(description));
+        governor.queue(targets, values, calldatas, descriptionHash);
 
+        vm.warp(block.timestamp + MIN_DELAY + 1);
+        vm.wrap(block.number + MIN_DELAY + 1);
+
+        // 4. Execute
+        governor.execute(targets, values, calldatas, descriptionHash);
+
+        assert(box.getNumber() == valueToStore);
+        console.log("Box number", box.getNumber());
     }
 }
