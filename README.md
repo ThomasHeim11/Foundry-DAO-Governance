@@ -1,8 +1,17 @@
 # Foundry DAO Governance
 
-*Please note: ERC20 based voting is not always recommended, and I encourage you to explore other forms of governance like reputation based or "skin-in-the-game" based.*
 ![forge](https://github.com/ThomasHeim11/Foundary-Fund-Me/assets/106417552/a6df2fc9-9e64-4e41-b3e0-60139a99d923)
-[One of my favorite articles on money-based voting being bad](https://vitalik.ca/general/2018/03/28/plutocracy.html)
+This GitHub repository contains smart contracts written in Solidity for a decentralized governance system. The repository includes the following contracts:
+
+GovToken.sol: This contract represents an ERC20 token with additional features for voting and permit. It allows token holders to participate in governance processes and includes functions for minting and burning tokens.
+
+Box.sol: This contract allows the owner to store and retrieve a single unsigned integer value. It provides a simple storage mechanism with an event emitted whenever the stored number is changed.
+
+MyGovernor.sol: This contract extends the OpenZeppelin Governor contract and adds additional functionality for voting and timelock control. It implements various extensions and interfaces from OpenZeppelin to provide a comprehensive governance solution. It integrates voting, vote counting, vote quorum, timelock control, and proposal management functionalities.
+
+TimeLock.sol: This contract extends the OpenZeppelin TimelockController contract and adds additional functionality for specifying proposers and executors. It allows for the execution of proposals with a minimum delay and provides control over who can propose and execute proposals.
+
+These contracts are designed to facilitate decentralized governance in a secure and transparent manner, enabling token holders to participate in decision-making processes within a blockchain ecosystem.
 
 - [Foundry DAO Governance](#foundry-dao-governance)
 - [Getting Started](#getting-started)
